@@ -32,8 +32,8 @@
 					sf.closeLoading = function () {
 						sf.closeSignal.dispatch();
 						sf.onRemove();
-						setTimeout(function () {
-						}, 100);
+						// setTimeout(function () {
+						// }, 100);
 					};
 					sf.closeSignal = new $Signal;
 				}
