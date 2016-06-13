@@ -1,15 +1,16 @@
 /**************************** Config ****************************/
 
 
-var SRC_PATH = 'src';                                                  //开发目录
-var RELEASE_PATH = 'release';                                          //发布目录
+var SRC_PATH = 'src';													//开发目录
+var RELEASE_PATH = 'release';											//发布目录
 
-var ASSET_PATH = '';
-var ENTRY_PATH = '';                                                    //入口目录,SRC_PATH/ENTRY_PATH
+var ASSET_PATH = '';													//入口目录,SRC_PATH/ENTRY_PATH
+var ENTRY_PATH = '';													//入口目录,SRC_PATH/ENTRY_PATH
 
-var htmlList = ['index.html'];                                          //需要发布的html文件,相对SRC_PATH/PROJECT_NAME
-var ignoreFolders = [];                                                 //ASSET_PATH下,不需要发布的文件夹,
-var packCssFile = ['css/lib.css'];                                      //ASSET_PATH下,需要打包的css文件
+var htmlList = ['index.html'];											//需要发布的html文件,相对SRC_PATH/PROJECT_NAME
+var ignoreFolders = [];													//ASSET_PATH下,不需要发布的文件夹,
+var ignoreVars = [];													//需要过滤掉不压缩的js变量,
+var packCssFile = ['css/lib.css'];										//ASSET_PATH下,需要打包的css文件
 
 /**************************** Gulp content ****************************/
 
@@ -72,12 +73,13 @@ gulp.task('html2js', function () {
 });
 
 gulp.task('concatJsAndTpl', function () {
+	var frameVars = ['$scope', '$router', '_$dom', '$Signal', '_$scopeMgr', '$htmlLoader', '$libsLoader', '_$scopeLoading', '_$ctor'];
 	return gulp.src([releasePath('js/*.js', ASSET_PATH), releasePath('_tempfile/*.js', ASSET_PATH)])
 		.pipe(concat('index.min.js'))
 		.pipe(
 			uglify({
 				mangle: {
-					except: ['$scope', '$router', '_$dom', '$Signal', '_$scopeMgr', '$htmlLoader', '$libsLoader', '_$scopeLoading', '_$ctor']
+					except: frameVars.concat(ignoreVars)
 				}
 			})
 		)
