@@ -1,86 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<title>Title</title>
 
-    <!-- build:js js/index.min.js -->
-    <script src="./js/zepto.min.js"></script>
-    <script src="./js/gbmodule/module.js"></script>
-    <script src="./js/gbmodule/tool.js"></script>
-    <script src="./js/gbmodule/router.js"></script>
-    <script src="./js/gbmodule/dom.js"></script>
-    <script src="./js/gbmodule/scope.js"></script>
-    <!-- endbuild -->
+	<!-- build:js js/index.min.js -->
+	<script src="./js/zepto.min.js"></script>
+	<script src="./js/gbmodule/module.js"></script>
+	<script src="./js/gbmodule/tool.js"></script>
+	<script src="./js/gbmodule/gbrouter.js"></script>
+	<script src="./js/gbmodule/router.js"></script>
+	<script src="./js/gbmodule/dom.js"></script>
+	<script src="./js/gbmodule/scope.js"></script>
+	<!-- endbuild -->
 
-    <!-- build:css css/index.min.css -->
-    <link href="./css/a.css" type="text/css" rel="stylesheet">
-    <link href="./css/b.css" type="text/css" rel="stylesheet">
-    <!-- endbuild -->
+	<!-- build:css css/index.min.css -->
+	<link href="./css/a.css" type="text/css" rel="stylesheet">
+	<link href="./css/b.css" type="text/css" rel="stylesheet">
+	<!-- endbuild -->
 </head>
 <body gb-app="app">
 </body>
 <script>
-    var app = gb.module('app', [], function (m0, $router, $libsLoader) {
-        $router
-                .loading({tpl: 'tpl/loading.html'})
-                .when('/page0', {tpl: 'tpl/page0.html', libs: ['./css/lib.css'], asIndex: true})
-                .when('/page1', {tpl: 'tpl/page1.html', asIndex: false})
-                .other('/page0')
+	var app = gb.module('app', [], function (m0, $router, $libsLoader) {
+		$router
+				.loading({tpl: 'tpl/loading.html'})
+				.when('/page0', {tpl: 'tpl/page0.html', libs: ['./css/lib.css'], asIndex: true})
+				.when('/page1', {tpl: 'tpl/page1.html', asIndex: true})
+				.otherwise('/page0')
 //                .useVirtualRouter(true);
 //		$libsLoader.load('css/a.css');
-    });
+	});
 
-    app.controller('loading', function ($scope, m0) {
-        console.log('#run loading', m0);
-        $scope.$view.css('opacity', .5);
-        $scope.onLibsProgress = function (p) {
-            $scope.$view.html('loading:' + p + '%');
-        };
-        $scope.onLibsComplete = function () {
-            console.log('end');
-            $scope.closeLoading();
-        };
-        $scope.loadLibs();
-        $scope.onAdd = function () {
-            $scope.add();
-        }
-        $scope.onRemove = function () {
-            $scope.remove();
-        };
-    });
+	app.controller('loading', function ($scope, m0) {
+		console.log('#run loading', m0);
+		$scope.$view.css('opacity', .5);
+		$scope.onLibsProgress = function (p) {
+			$scope.$view.html('loading:' + p + '%');
+		};
+		$scope.onLibsComplete = function () {
+			$scope.closeLoading();
+		};
+		$scope.loadLibs();
+		$scope.onAdd = function () {
+			$scope.add();
+		}
+		$scope.onRemove = function () {
+			$scope.remove();
+		};
+	});
 
-    app.controller('page0', function ($scope, $router) {
-        $scope.$view.click(function () {
-            $router.goto('/page1', 1);
-        });
-        $scope.onAdd = function (d) {
-            console.log('p0 add:', arguments);
-            $scope.add();
-        };
-        $scope.onRemove = function (d) {
-            console.log('remove', arguments);
-            $scope.remove();
-        };
-    });
+	app.controller('page0', function ($scope, $router) {
+		$scope.$view.click(function () {
+			$router.goto('/page1', 1);
+		});
+		$scope.onAdd = function (d) {
+			console.log('p0 add:', arguments);
+			$scope.add();
+		};
+		$scope.onRemove = function (d) {
+			console.log('remove p0', arguments);
+			$scope.remove();
+		};
+	});
 
-    app.controller('page1', function ($scope, $router) {
-        $scope.$view.click(function () {
-            $router.goto('/page0', 2);
-        });
-        $scope.onAdd = function (d) {
-            console.log('p1 add:', arguments);
-            $scope.add();
-        };
-        $scope.onRemove = function (d) {
-            console.log('remove', arguments);
-            $scope.remove();
-        };
-    });
+	app.controller('page1', function ($scope, $router) {
+		$scope.$view.click(function () {
+			$router.goto('/page0', 2);
+		});
+		$scope.onAdd = function (d) {
+			console.log('p1 add:', arguments);
+			$scope.add();
+		};
+		$scope.onRemove = function (d) {
+			console.log('remove p1', arguments);
+			$scope.remove();
+		};
+	});
 
-    app.service('m0', function ($router) {
-        this.name = 'm0';
-    });
+	app.service('m0', function ($router) {
+		this.name = 'm0';
+	});
 
 </script>
 

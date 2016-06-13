@@ -35,7 +35,7 @@
 						completeFn_(progress);
 					clearInterval(timer);
 				}
-			}, 1000 / 60);
+			}, 1000 / 50);
 			if (imgNum > 0) {
 				setSrc();
 			}

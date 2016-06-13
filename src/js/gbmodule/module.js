@@ -44,8 +44,8 @@
 				setTimeout(function () {
 					if (preTplScope != null) {
 						preTplScope.onRemove({
-							preHash: $router.preHash,
-							currHash: $router.currHash,
+							// preHash: $router.preHash,
+							// currHash: $router.currHash,
 							data: $router._gotoData
 						});
 						currTplScope._ctor();
@@ -69,28 +69,34 @@
 					}
 					_root.controller('_loadingHandler', function (_$scopeLoading) {
 						_$scopeLoading.closeSignal.add(function () {
-							_$dom.addTpl($router.getTplConfig($router.currHash));
+							_$dom.addTpl($router.getTplConfig($router.getHash()));
 						});
 					}, true);
 				} else {
-					ctrl2CtrlMap[$router.currHash] = ctrlName;
+					ctrl2CtrlMap[$router.getHash()] = ctrlName;
 				}
 				app.module._createC(ctrlName);
 			});
 			/**
 			 * $router
 			 */
-			$router._start();
 			$router.changeSignal.add(function (preHash, currHash) {
-				preTplScope = _$scopeMgr._getScope(ctrl2CtrlMap[preHash]);
-				//preTplScope.onRemove({preHash: $router.preHash, currHash: $router.currHash, data: $router._gotoData});
-				_$dom.addTpl($router.getTplConfig($router.currHash));
+				if (preHash == '' || preHash == null) {
+
+					console.log($router.getDefaultLibs())
+
+					if ($router.haveLoading && $router.getDefaultLibs().length > 0) {
+						_$dom.addLoading($router.getLoadingConfig(), $router.getTplConfig($router.getHash()));
+					} else {
+						_$dom.addTpl($router.getTplConfig($router.getHash()));
+					}
+				} else {
+					preTplScope = _$scopeMgr._getScope(ctrl2CtrlMap[preHash]);
+					_$dom.addTpl($router.getTplConfig($router.getHash()));
+				}
+
 			});
-			if ($router.haveLoading && $router.getDefaultLibs().length > 0) {
-				_$dom.addLoading($router.getLoadingConfig(), $router.getTplConfig($router.currHash));
-			} else {
-				_$dom.addTpl($router.getTplConfig($router.currHash));
-			}
+			$router._start();
 		});
 		_runModule('_root');
 	}

@@ -32,8 +32,8 @@
 					sf.closeLoading = function () {
 						sf.closeSignal.dispatch();
 						sf.onRemove();
-						setTimeout(function(){
-						},100);
+						setTimeout(function () {
+						}, 100);
 					};
 					sf.closeSignal = new $Signal;
 				}
@@ -47,10 +47,11 @@
 					sf.$view.show();
 				};
 				sf.remove = function () {
+					// console.log(sf.$view.css('opacity',.4))
 					sf.$view.remove();
 				};
 				sf._ctor = function () {
-					sf.onAdd({preHash: $router.preHash, currHash: $router.currHash, data: $router._gotoData});
+					sf.onAdd({currHash: $router.getHash(), data: $router._gotoData});
 				};
 
 				//_ctor();
