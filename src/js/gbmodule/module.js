@@ -82,9 +82,6 @@
 			 */
 			$router.changeSignal.add(function (preHash, currHash) {
 				if (preHash == '' || preHash == null) {
-
-					console.log($router.getDefaultLibs())
-
 					if ($router.haveLoading && $router.getDefaultLibs().length > 0) {
 						_$dom.addLoading($router.getLoadingConfig(), $router.getTplConfig($router.getHash()));
 					} else {
